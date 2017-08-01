@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+.fa.fa-refresh {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+.navbar-brand {
+    border-radius: 25px;
+    border-right: 2px solid;
+    box-shadow: 2px 0px 3px -1px;
+}
+.active {
+    color: orange !important;
+}
