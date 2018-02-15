@@ -1,16 +1,37 @@
 <!doctype html>
-<html>
+<html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>MyApp</title>
   <base href="/">
-
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="icon" type="image/x-icon" href="01_Extension_Manager.ico">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
 </head>
+
 <body>
-<app-root>Loading....<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i></app-root>
-<script src="https://use.fontawesome.com/b72d682d13.js"></script>
+  <app-root>Loading....<i class="fa fa-refresh fa-spin fa-3x fa-fw"></i></app-root>
+
+  <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyCbd3KkvRhSuYwAeWOJ47BRXevG0N3Vqig",
+      authDomain: "ebarun-com-angular-4.firebaseapp.com",
+      databaseURL: "https://ebarun-com-angular-4.firebaseio.com",
+      projectId: "ebarun-com-angular-4",
+      storageBucket: "ebarun-com-angular-4.appspot.com",
+      messagingSenderId: "853454513339"
+    };
+    firebase.initializeApp(config);
+  </script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
+
 </html>
