@@ -4,8 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule, JsonpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AngularFireModule } from 'angularfire2';
+import * as firebase from 'firebase/app';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFireAuth } from 'angularfire2/auth';
+
 import { AppComponent } from './app.component';
 import { LearnerComponent } from './learner/learner.component';
+import { AppLoginComponent } from './app-login/login.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { AppContactComponent } from './app-contact/app-contact.component';
 import { AppDashboardComponent } from './app-dashboard/app-dashboard.component';
@@ -16,6 +22,14 @@ import { BorderDirective } from './border.directive';
 import { HideDirective } from './hide.directive';
 import { MyhideDirective } from './myhide.directive';
 
+const firebaseConfig = {
+    apiKey: "AIzaSyCbd3KkvRhSuYwAeWOJ47BRXevG0N3Vqig",
+    authDomain: "ebarun-com-angular-4.firebaseapp.com",
+    databaseURL: "https://ebarun-com-angular-4.firebaseio.com",
+    projectId: "ebarun-com-angular-4",
+    storageBucket: "ebarun-com-angular-4.appspot.com",
+    messagingSenderId: "853454513339"
+  };
 
 export const rootRouterConfig: Routes = [
     { path: '', redirectTo: 'home' , pathMatch: 'full'},
@@ -23,6 +37,7 @@ export const rootRouterConfig: Routes = [
     { path: 'aboutus', component:AppAboutUsComponent},
     { path: 'learner', component: LearnerComponent },
     { path: 'dashboard', component: AppDashboardComponent },
+    { path: 'login', component: AppLoginComponent },
     { path: 'myprofile', component: UserProfileComponent },
     { path: 'contact', component: AppContactComponent },
     { path: 'users-list', component: UserDataComponent },
@@ -33,6 +48,7 @@ export const rootRouterConfig: Routes = [
   declarations: [
     AppComponent,
     LearnerComponent,
+    AppLoginComponent,
     UserProfileComponent,
     AppContactComponent,
     AppDashboardComponent,
@@ -48,6 +64,7 @@ export const rootRouterConfig: Routes = [
     FormsModule,
     HttpModule,
     JsonpModule,
+    AngularFireModule.initializeApp(firebaseConfig),
     RouterModule.forRoot(rootRouterConfig)
   ],
   exports:[HideDirective],
