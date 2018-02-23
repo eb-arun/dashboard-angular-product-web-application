@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as firebase from 'firebase/app';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireModule } from 'angularfire2';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +15,7 @@ export class AppLoginComponent implements OnInit {
 
  login() {
     this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    console.log(this.afAuth.authState);
   }
   logout() {
     this.afAuth.auth.signOut();

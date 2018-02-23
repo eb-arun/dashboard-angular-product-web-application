@@ -1,32 +1,3 @@
-<!--<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" routerLink="/home" routerLinkActive="active"><i class="fa fa-home" aria-hidden="true"></i></a>
-    </div>
-
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li><a routerLink="/aboutus" routerLinkActive="active">About</a></li>
-        <li><a routerLink="/users-list" routerLinkActive="active">Add New</a></li>
-        <li><a routerLink="/myprofile" routerLinkActive="active">Profile</a></li>
-        
-      </ul>
-      <dtcc-nav>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a routerLink="contact" routerLinkActive="active">Contact</a></li>
-      </ul>
-      </dtcc-nav>
-    </div>
-  </div>
-</nav>-->
-
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-warning">
   <a class="navbar-brand" routerLink="/home" routerLinkActive="activeLink"><i class="fa fa-home" aria-hidden="true"></i></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,7 +20,7 @@
       </li>
     </ul>
     <ul class="navbar-nav navbar-right">
-        <li class="nav-item"><a class="nav-link" routerLink="login" routerLinkActive="activeLink">Login <i class="fas fa-chevron-down d-none d-md-inline" data-fa-transform="shrink-4 left-32 down-16"></i></a></li>
+        <li class="nav-item"><a class="nav-link" (click)="login()">Login {{user}}<i class="fas fa-chevron-down d-none d-md-inline" data-fa-transform="shrink-4 left-32 down-16"></i></a></li>
       </ul>
   </div>
 </nav>
