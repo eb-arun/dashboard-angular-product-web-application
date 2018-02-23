@@ -3,3 +3,6 @@
     border-right: 2px solid;
     box-shadow: 2px 0px 3px -1px;
 }
+.navbar.navbar-dark .navbar-toggler {
+    border-color: #FFEB3B;
+}
