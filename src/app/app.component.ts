@@ -1,44 +1,33 @@
 import { Component, OnInit } from '@angular/core';
-import * as firebase from 'firebase/app';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { Observable } from 'rxjs/Observable';
 import { RouterModule, Routes, Router } from '@angular/router';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { AuthService } from './services/auth.service';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [AngularFireAuth]
+  providers: [AuthService, AngularFireAuth]
 })
 export class AppComponent implements OnInit {
-  private user: Observable<firebase.User>;
-  private userDetails: firebase.User = null;
+  userName:string;
+  userFirstName:string;
 
-  constructor(public afAuth: AngularFireAuth, private router: Router) {
-      this.user = afAuth.authState;
-      this.user.subscribe(
-        (user) => {
-          if (user) {
-            this.userDetails = user;
-            this.router.navigate(['/myprofile']);
-          }
-          else {
-            this.userDetails = null;
-          }
-        }
-      );
-   }
-
+  constructor(public authService: AuthService, private router: Router) { }
   title = 'Started !';
    ngOnInit() { 
-    console.log(this.user);
+     this.userName = this.authService.currentUserDisplayName;
+     this.userFirstName = this.authService.getFirstName(this.userName);
+     console.log(this.userName, this.userFirstName)
      }
   login() {
-    this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
-    
+    this.authService.loginWithGoogle().then((data) => {
+      this.router.navigate(['/myprofile']);
+    })
   }
   logout() {
-    this.afAuth.auth.signOut();
-    this.router.navigate(['/home']);
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

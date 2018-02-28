@@ -9,6 +9,8 @@ import * as firebase from 'firebase/app';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 
+import { AuthService } from './services/auth.service';
+
 import { AppComponent } from './app.component';
 import { LearnerComponent } from './learner/learner.component';
 import { AppLoginComponent } from './app-login/login.component';
@@ -68,7 +70,7 @@ export const rootRouterConfig: Routes = [
     RouterModule.forRoot(rootRouterConfig)
   ],
   exports:[HideDirective],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

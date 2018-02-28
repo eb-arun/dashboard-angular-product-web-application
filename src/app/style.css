@@ -6,3 +6,7 @@
 .navbar.navbar-dark .navbar-toggler {
     border-color: #FFEB3B;
 }
+
+.dropdown-menu.dropdown-menu-right {
+    right:0 !important;
+}
