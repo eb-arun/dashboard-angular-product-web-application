@@ -8,6 +8,7 @@ import { AngularFireModule } from 'angularfire2';
 import * as firebase from 'firebase/app';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 import { AuthService } from './services/auth.service';
 
@@ -67,6 +68,7 @@ export const rootRouterConfig: Routes = [
     HttpModule,
     JsonpModule,
     AngularFireModule.initializeApp(firebaseConfig),
+    AngularFirestoreModule,
     RouterModule.forRoot(rootRouterConfig)
   ],
   exports:[HideDirective],
