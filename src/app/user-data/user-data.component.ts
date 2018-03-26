@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
-
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
+import 'rxjs/add/operator/map';
+interface Post {
+  title: string;
+  content: string;
+}
 @Component({
   selector: 'app-user-data',
   templateUrl: './user-data.component.html',
@@ -16,11 +20,15 @@ export class UserDataComponent {
   userFirstName:string;
   profilePictrue:string;
   hero;
-  oilData: Observable<any[]>;
-  constructor(public authService: AuthService, db: AngularFirestore) { 
-      this.oilData = db.collection('users').valueChanges();
+  oilData: any;
+  userData: AngularFirestoreCollection<Post>;
+  posts: Observable<Post[]>;
+  constructor(public authService: AuthService, private db: AngularFirestore) { 
   }
   ngOnInit () {
+      this.userData = this.db.collection("/users/");
+      this.posts = this.userData.valueChanges();
+      console.log(this.posts);
       this.userName = this.authService.currentUserDisplayName;
       this.userFirstName = this.authService.getFirstName(this.userName);
       this.profilePictrue = this.authService.currentUserDisplayPicture;
