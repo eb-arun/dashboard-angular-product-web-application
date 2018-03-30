@@ -40,7 +40,7 @@ export const rootRouterConfig: Routes = [
     { path: 'aboutus', component:AppAboutUsComponent},
     { path: 'learner', component: LearnerComponent },
     { path: 'dashboard', component: AppDashboardComponent },
-    { path: 'login', component: AppLoginComponent },
+    { path: 'logout', component: AppLoginComponent },
     { path: 'myprofile', component: UserProfileComponent },
     { path: 'contact', component: AppContactComponent },
     { path: 'users-list', component: UserDataComponent },

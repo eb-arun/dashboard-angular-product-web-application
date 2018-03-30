@@ -21,15 +21,21 @@ export class AppComponent implements OnInit {
    ngOnInit() { 
      this.userName = this.authService.currentUserDisplayName;
      this.userFirstName = this.authService.getFirstName(this.userName);
-     console.log(this.userName, this.userFirstName)
+     console.log(this.userName, this.userFirstName);
+     if (localStorage.getItem("userdata") === null) {
+          this.router.navigate(['/logout']);
+      }
      }
   login() {
     this.authService.loginWithGoogle().then((data) => {
+      localStorage.setItem('userdata' , JSON.stringify(data.additionalUserInfo.profile));
+      console.log(data.additionalUserInfo.profile);
       this.router.navigate(['/myprofile']);
     })
   }
   logout() {
     this.authService.logout();
-    this.router.navigate(['/login']);
+    localStorage.removeItem('userdata');    
+    this.router.navigate(['/logout']);
   }
 }
