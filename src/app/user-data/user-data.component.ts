@@ -31,6 +31,17 @@ export class UserDataComponent {
   userDoc: Observable<any>;
   checkData: any;
   localUser: any;
+
+  cusNickName: any;
+  cusOil: any;
+  cusQuantity: any;
+  cusEmailId: any;
+  purchasedDate: any;
+  cusPrice: any;
+  cusStore: Object;
+  myFood = 'lamb';
+  saveToStore:AngularFirestoreCollection<any>;
+
   constructor(public authService: AuthService, private db: AngularFirestore, private router: Router) {
   }
   ngOnInit() {
@@ -39,6 +50,7 @@ export class UserDataComponent {
       this.router.navigate(['/logout']);
     } else {
       this.localUser = JSON.parse(localStorage.getItem("userdata"));
+      this.saveToStore = this.db.collection("users");
       console.log(this.localUser.email, "local");
       this.userFirstName = this.localUser.given_name;
       this.userEmail = this.localUser.email;
@@ -49,6 +61,32 @@ export class UserDataComponent {
         console.log(res, this.checkData, "db");
       });
     }
+  }
+
+  addEntry() {
+    this.cusStore = {
+      "name": this.cusNickName,
+      "role": "customer",
+      "email": this.cusEmailId,
+      "oil_history": {
+        "price": this.cusPrice,
+        "product": this.cusOil,
+        "quantity": this.cusQuantity,
+        "purchased": this.purchasedDate
+      }
+    }
+    this.saveToStore.doc("today").set({
+      "name": this.cusNickName,
+      "role": "customer",
+      "email": this.cusEmailId,
+      "oil_history": {
+        "price": this.cusPrice,
+        "product": this.cusOil,
+        "quantity": this.cusQuantity,
+        "purchased": this.purchasedDate
+      }
+    });
+    console.log("saved", this.cusStore, this.cusOil, this.myFood);
   }
 
 

@@ -7,6 +7,77 @@
   </li>
 </ul>
 -->
+<div class="modal" id="addEntryModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Oil Entry</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+            <label>Nick Name *</label>
+            <input type="email" class="form-control" [(ngModel)]="cusNickName" placeholder="customer name">
+        </div>
+        <div class="form-group">
+          <label>Email address *</label>
+          <input type="email" class="form-control" [(ngModel)]="cusEmailId" placeholder="customer email">
+        </div>
+        <div class="form-group">
+            <label>Purchased Date *</label>
+            <input type="date" class="form-control" [(ngModel)]="purchasedDate" placeholder="enter date of purchase">
+          </div>
+        <div class="form-group row">
+          <div class="btn-group btn-group-toggle mr-3 mb-3 col-sm" data-toggle="buttons">
+            <label class="btn btn-warning">
+              <input type="radio" name="oil" [(ngModel)]="cusOil" value="gingelly" autocomplete="off" checked=""> Gingelly
+            </label>
+            <label class="btn btn-warning">
+              <input type="radio" name="oil" [(ngModel)]="cusOil" value="groundnut" autocomplete="off"> Groundnut
+            </label>
+            <label class="btn btn-warning">
+              <input type="radio" name="oil" [(ngModel)]="cusOil" value="coconut" autocomplete="off"> Coconut
+            </label>
+          </div>
+          <div class="btn-group btn-group-toggle mr-3 mb-3 col-sm" data-toggle="buttons">
+            <label class="btn btn-warning">
+              <input type="radio" name="cusQuantity" [(ngModel)]="cusQuantity" value="0.5" autocomplete="off" checked=""> 0.5L
+            </label>
+            <label class="btn btn-warning">
+              <input type="radio" name="cusQuantity" [(ngModel)]="cusQuantity" value="1" autocomplete="off"> 1L
+            </label>
+            <label class="btn btn-warning">
+              <input type="radio" name="cusQuantity" [(ngModel)]="cusQuantity" value="1.5" autocomplete="off"> 1.5L
+            </label>
+            <label class="btn btn-warning">
+              <input type="radio" name="cusQuantity" [(ngModel)]="cusQuantity" value="2" autocomplete="off"> 2L
+            </label>
+            <label class="btn btn-warning">
+              <input type="radio" name="cusQuantity" [(ngModel)]="cusQuantity" value="2.5" autocomplete="off"> 2.5L
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Price *</label>
+          <input type="email" class="form-control" [(ngModel)]="cusPrice" placeholder="enter calculated price">
+          <small class="form-text text-muted">calculate the amount for above selected oil/quantity</small>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="addEntry()">Save</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="row modalForm">
+  <div class="col-md-4">
+
+  </div>
+</section>
 <div>
   <div *ngIf="checkData">
     <ul *ngFor="let data of checkData.oil_history">
@@ -15,6 +86,9 @@
         {{data.product}}
       </li>
     </ul>
+  </div>
+  <div class="text-right mb-3">
+    <button data-toggle="modal" data-target="#addEntryModal" type="button" class="btn btn-warning">Add Entry</button>
   </div>
   <table class="table table-hover">
     <thead class="thead-dark">
@@ -37,4 +111,9 @@
 
     </tbody>
   </table>
+      <input type="radio" value="beef" name="food" [(ngModel)]="myFood"> Beef
+      <input type="radio" value="lamb" name="food" [(ngModel)]="myFood"> Lamb
+      <input type="radio" value="fish" name="food" [(ngModel)]="myFood"> Fish
+      
+    <p>myFood value: {{ myFood }} and {{cusQuantity}}</p>
 </div>

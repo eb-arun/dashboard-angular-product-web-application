@@ -68,7 +68,7 @@ export const rootRouterConfig: Routes = [
     HttpModule,
     JsonpModule,
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
     RouterModule.forRoot(rootRouterConfig)
   ],
   exports:[HideDirective],

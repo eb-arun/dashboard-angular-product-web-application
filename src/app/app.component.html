@@ -20,7 +20,7 @@
         <a class="nav-link" routerLink="/contact" routerLinkActive="activeLink">Contact <i class="fas fa-chevron-down d-none d-md-inline" data-fa-transform="shrink-4 left-36 down-16"></i></a>
       </li>
     </ul>
-    <div *ngIf="authService.authState"  class="dropdown">
+    <!-- <div *ngIf="authService.authState"  class="dropdown">
       <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
         aria-expanded="false">
     My Account
@@ -29,7 +29,10 @@
         <a class="dropdown-item" routerLink="/myprofile">Profile</a>      
         <a class="dropdown-item" (click)="logout()">Sign Out</a>
       </div>
-    </div>
+    </div> -->
+    <ul *ngIf="authService.authState" class="navbar-nav navbar-right">
+        <li class="nav-item"><a class="nav-link" (click)="logout()"><span>Sign Out</span> </a></li>
+        </ul>
       <ul *ngIf="!authService.authState" class="navbar-nav navbar-right">
         <li class="nav-item"><a class="nav-link" (click)="login()"><span>Sign On</span></a></li>
         <!--<li class="nav-item" *ngIf="authService.authState; else showLogin"><a class="nav-link" (click)="logout()"><span>Sign Out</span> </a></li>-->
