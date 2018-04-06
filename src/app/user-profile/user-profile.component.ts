@@ -21,7 +21,7 @@ export class UserProfileComponent implements OnInit {
   localUser:any;
   userEmail:any;
 
-  checkRole: AngularFirestoreCollection<any>;
+  checkRole: any;
   roleInfo:any;
   role:any;
 
@@ -39,7 +39,12 @@ ngOnInit () {
       this.checkRole = this.db.collection("users").doc('all').collection("role", ref => ref.where("roleEmail", '==',this.userEmail));
       this.checkRole.valueChanges().subscribe(res=> {
         this.roleInfo = res[0];
-        localStorage.setItem('roleInfo',this.roleInfo.roleChoosen);
+        this.checkRole = this.roleInfo;
+        if(this.checkRole == undefined)
+        this.checkRole = "Customer";
+        else
+        this.checkRole = this.roleInfo.roleChoosen;
+        localStorage.setItem('roleInfo', this.checkRole);
         this.role = localStorage.getItem('roleInfo');
         console.log('role = ', this.role);
       })
