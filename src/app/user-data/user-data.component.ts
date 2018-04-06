@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
+import { ReactiveFormsModule, FormsModule, FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs/Observable';
@@ -28,9 +29,11 @@ export class UserDataComponent {
   hero;
   oilData: any;
   userData: AngularFirestoreCollection<Post>;
-  userDoc: Observable<any>;
+  allData: AngularFirestoreCollection<Post>;
+  allDataObs: Observable<any>;
   checkData: any;
   localUser: any;
+  allDataRes: any;
 
   cusNickName: any;
   cusOil: any;
@@ -39,10 +42,21 @@ export class UserDataComponent {
   purchasedDate: any;
   cusPrice: any;
   cusStore: Object;
-  myFood = 'lamb';
-  saveToStore:AngularFirestoreCollection<any>;
+  saveToStore: AngularFirestoreCollection<any>;
+  cusData:AngularFirestoreCollection<any>;
+  cusDataRes:any;
 
-  constructor(public authService: AuthService, private db: AngularFirestore, private router: Router) {
+  dateNow: Date = new Date();
+
+  roleName: any;
+  roleEmail: any;
+  roleChoosen: any;
+  roleStore: any;
+  roleEntry: FormGroup;
+  submitted: any;
+  role: any;
+
+  constructor(public authService: AuthService, private db: AngularFirestore, private router: Router, private fb: FormBuilder) {
   }
   ngOnInit() {
 
@@ -50,15 +64,40 @@ export class UserDataComponent {
       this.router.navigate(['/logout']);
     } else {
       this.localUser = JSON.parse(localStorage.getItem("userdata"));
+      this.role = localStorage.getItem('roleInfo');
+      console.log('role = ', this.role);
       this.saveToStore = this.db.collection("users");
-      console.log(this.localUser.email, "local");
       this.userFirstName = this.localUser.given_name;
       this.userEmail = this.localUser.email;
-      this.userData = this.db.collection("users", ref => ref.where("email", '==', this.userEmail));
-      this.userDoc = this.db.collection("users").doc("arun").snapshotChanges();
-      this.userData.valueChanges().subscribe(res => {
-        this.checkData = res[0];
-        console.log(res, this.checkData, "db");
+
+      switch (this.role) {
+        case 'Admin':
+          this.userData = this.db.collection("users", ref => ref.where("email", '==', this.userEmail));
+          this.userData.valueChanges().subscribe(res => {
+            this.checkData = res[0];
+            console.log(res, this.checkData, "db");
+          });
+          this.allData = this.db.collection("users").doc("all").collection('oil_data');
+          this.allData.valueChanges().subscribe(resData => {
+            this.allDataRes = resData;
+            console.log(resData, "all_oil_data");
+          });
+        case 'Customer':
+          this.cusData = this.db.collection("users").doc("all").collection("oil_data", ref=>ref.where('email', '==', this.userEmail));
+          this.cusData.valueChanges().subscribe(resData => {
+            this.cusDataRes = resData;
+            console.log(resData, "cus_oil_data");
+          })
+        default:
+
+
+      }
+
+
+      this.roleEntry = this.fb.group({
+        roleName: ['', [<any>Validators.required]],
+        roleEmail: ['', [<any>Validators.email, Validators.required]],
+        roleChoosen: ['', [<any>Validators.required]]
       });
     }
   }
@@ -68,25 +107,54 @@ export class UserDataComponent {
       "name": this.cusNickName,
       "role": "customer",
       "email": this.cusEmailId,
-      "oil_history": {
-        "price": this.cusPrice,
-        "product": this.cusOil,
-        "quantity": this.cusQuantity,
-        "purchased": this.purchasedDate
-      }
-    }
-    this.saveToStore.doc("today").set({
-      "name": this.cusNickName,
-      "role": "customer",
-      "email": this.cusEmailId,
-      "oil_history": {
-        "price": this.cusPrice,
-        "product": this.cusOil,
-        "quantity": this.cusQuantity,
-        "purchased": this.purchasedDate
-      }
+      "price": this.cusPrice,
+      "product": this.cusOil,
+      "quantity": this.cusQuantity,
+      "purchased": this.purchasedDate,
+      "dateCreated": this.dateNow,
+      "entryBy": this.userEmail
+    };
+    console.log("saved", this.cusStore);
+
+    this.db.collection("users").doc("all").collection("oil_data").add(this.cusStore);
+
+    /*   this.db.collection("users").doc(this.cusEmailId).snapshotChanges();
+       this.sfDocRef = this.db.collection("users").doc("eb.arun@gmail.com");
+  
+      this.db.firestore.runTransaction(transaction => {
+      return transaction.get(this.db.collection("users").doc("eb.arun@gmail.com").ref).then(snapshot => {
+      const largerArray = snapshot.get('array').push('newfield');
+      transaction.update(this.sfDocRef.ref, 'array', largerArray);
     });
-    console.log("saved", this.cusStore, this.cusOil, this.myFood);
+  });*/
+    /*  {
+          "name": "Arun",
+          "role": "customer",
+          "email": "eb.arun@gmail.com",
+          "oil_history": {
+            "price": 129,
+            "product": "coconut",
+            "quantity":1,
+            "purchased": "Today"
+          }
+        }*/
+  }
+
+  addRole(data, valid) {
+    this.submitted = true;
+    if (valid === true) {
+      this.roleStore = {
+        "roleName": this.roleName,
+        "roleEmail": this.roleEmail,
+        "roleChoosen": this.roleChoosen,
+        "dateCreated": this.dateNow,
+        "createdBy": this.userEmail
+      }
+      this.db.collection("users").doc("all").collection("role").add(this.roleStore);
+      console.log("added role", this.roleStore, data);
+    }
+
+
   }
 
 
