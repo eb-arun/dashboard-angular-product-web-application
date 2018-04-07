@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { HttpModule, JsonpModule } from '@angular/http';
@@ -39,11 +40,10 @@ export const rootRouterConfig: Routes = [
     { path: 'home', component:AppDashboardComponent},
     { path: 'aboutus', component:AppAboutUsComponent},
     { path: 'learner', component: LearnerComponent },
-    { path: 'dashboard', component: AppDashboardComponent },
-    { path: 'logout', component: AppLoginComponent },
+    { path: 'dashboard', component: UserDataComponent },
+    { path: 'logout', component: AppLoginComponent},
     { path: 'myprofile', component: UserProfileComponent },
     { path: 'contact', component: AppContactComponent },
-    { path: 'users-list', component: UserDataComponent },
     {path: '**', component:PageNotFoundComponent }
 ];
 
@@ -64,6 +64,7 @@ export const rootRouterConfig: Routes = [
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule,

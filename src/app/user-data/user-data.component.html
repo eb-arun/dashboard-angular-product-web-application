@@ -18,7 +18,7 @@
 
 
 <div *ngIf="role=='Admin'">
-  <div class="table-responsive">
+  <div class="table-responsive" *ngIf="allDataRes">
     <table class="table table-hover">
       <thead class="thead-dark">
         <tr>
@@ -32,11 +32,11 @@
       </thead>
       <tbody *ngFor="let data of allDataRes; let i = index">
         <tr>
-          <td>{{i+1}}</td>
-          <td>{{data.name}}</td>
+          <td data-container="body" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">{{i+1}}</td>
+          <td title="{{data.email}}">{{data.name}}</td>
           <td>{{data.product}}</td>
           <td>{{data.quantity}}L</td>
-          <td>{{data.price | currency:'INR':'symobol'}}</td>
+          <td [ngClass]="{'text-success':data.payment=='paid', 'text-danger':data.payment=='unpaid'}" title="{{data.payment}}">{{data.price | currency:'INR':'symobol'}}</td>
           <td>{{data.purchased | date}}</td>
         </tr>
 
@@ -97,11 +97,25 @@
             </label>
           </div>
         </div>
-        <div class="form-group">
-          <label>Price *</label>
-          <input type="email" class="form-control" [(ngModel)]="cusPrice" placeholder="enter calculated price">
-          <small class="form-text text-muted">calculate the amount for above selected oil/quantity</small>
+        <div class="form-row">
+            <div class="form-group col-sm">
+                <label>Price *</label>
+                <input type="email" class="form-control" [(ngModel)]="cusPrice" placeholder="enter calculated price">
+                <small class="form-text text-muted">calculated amount of oil-quantity</small>
+              </div>
+          <div class="form-group col-sm mt-4 pt-2">
+            <div class="btn-group btn-group-toggle mr-3 mb-3">
+              <label [ngClass]="{'active': payment==='payment-1'}" (click)="payment='payment-1'" class="btn btn-warning">
+                <input type="radio" name="payment" [(ngModel)]="cusPayment" value="paid" autocomplete="off"> Paid
+              </label>
+              <label [ngClass]="{'active': payment==='payment-2'}" (click)="payment='payment-2'" class="btn btn-warning">
+                <input type="radio" name="payment" [(ngModel)]="cusPayment" value="unpaid" autocomplete="off"> Unpaid
+              </label>
+            </div>
+            </div>
         </div>
+        
+        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-warning" (click)="addEntry()">Save</button>
@@ -136,8 +150,7 @@
             <input [ngClass]="{'border border-danger':  (roleEntry.controls.roleEmail.invalid && roleEntry.controls.roleEmail.dirty) || (roleEntry.controls.roleEmail.invalid && submitted)}"
               type="email" formControlName="roleEmail" class="form-control" [(ngModel)]="roleEmail" placeholder="email">
           </div>
-          <div class="form-group row">
-              <small class="text-danger" [hidden]="roleEntry.controls.roleChoosen.valid || (roleEntry.controls.roleChoosen.pristine  && !submitted)">Role is required</small>
+          <div class="form-group row position-relative">
             <div class="btn-group btn-group-toggle mr-3 mb-3 col-sm">
               <label [ngClass]="{'active': role1==='role-1'}" (click)="role1='role-1'" class="btn btn-warning">
               <input formControlName="roleChoosen" type="radio" name="roleChoosen" [(ngModel)]="roleChoosen" value="Admin" autocomplete="off" checked=""> Admin
@@ -149,6 +162,7 @@
               <input formControlName="roleChoosen" type="radio" name="roleChoosen" [(ngModel)]="roleChoosen" value="Customer" autocomplete="off"> Customer
             </label>
             </div>
+            <small class="radio-error text-danger" [hidden]="roleEntry.controls.roleChoosen.valid || (roleEntry.controls.roleChoosen.pristine  && !submitted)">Role is required</small>
 
           </div>
           <div class="modal-footer">

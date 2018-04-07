@@ -45,6 +45,7 @@ export class UserDataComponent {
   saveToStore: AngularFirestoreCollection<any>;
   cusData:AngularFirestoreCollection<any>;
   cusDataRes:any;
+  cusPayment:any;
 
   dateNow: Date = new Date();
 
@@ -82,12 +83,14 @@ export class UserDataComponent {
             this.allDataRes = resData;
             console.log(resData, "all_oil_data");
           });
+          break;
         case 'Customer':
           this.cusData = this.db.collection("users").doc("all").collection("oil_data", ref=>ref.where('email', '==', this.userEmail));
           this.cusData.valueChanges().subscribe(resData => {
             this.cusDataRes = resData;
             console.log(resData, "cus_oil_data");
           })
+          break;
         default:
 
 
@@ -112,7 +115,8 @@ export class UserDataComponent {
       "quantity": this.cusQuantity,
       "purchased": this.purchasedDate,
       "dateCreated": this.dateNow,
-      "entryBy": this.userEmail
+      "entryBy": this.userEmail,
+      "payment":this.cusPayment
     };
     console.log("saved", this.cusStore);
 
