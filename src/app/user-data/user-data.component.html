@@ -27,17 +27,17 @@
           <th scope="col">Oil</th>
           <th scope="col">Quantity</th>
           <th scope="col">Price</th>
-          <th scope="col">Date</th>
+          <th scope="col">Action</th>
         </tr>
       </thead>
       <tbody *ngFor="let data of allDataRes; let i = index">
         <tr>
-          <td data-container="body" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">{{i+1}}</td>
+          <td title="{{data.purchased | date}}">{{i+1}}</td>
           <td title="{{data.email}}">{{data.name}}</td>
           <td>{{data.product}}</td>
           <td>{{data.quantity}}L</td>
           <td [ngClass]="{'text-success':data.payment=='paid', 'text-danger':data.payment=='unpaid'}" title="{{data.payment}}">{{data.price | currency:'INR':'symobol'}}</td>
-          <td>{{data.purchased | date}}</td>
+          <td></td>
         </tr>
 
       </tbody>
