@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import 'rxjs/add/operator/map';
 import { RouterModule, Routes, Router } from '@angular/router';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 interface Post {
   title: string;
@@ -43,11 +44,18 @@ export class UserDataComponent {
   cusPrice: any;
   cusStore: Object;
   saveToStore: AngularFirestoreCollection<any>;
-  cusData:AngularFirestoreCollection<any>;
-  cusDataRes:any;
-  cusPayment:any;
+  cusData: AngularFirestoreCollection<any>;
+  cusDataRes: any;
+  cusPayment: any;
+
+  updateInfo:any;
+  updateShowInfo:any;
+  getUpdateInfo:any;
+  cusUpNickName:any;
 
   dateNow: Date = new Date();
+  rowId: any;
+  closeResult: any;
 
   roleName: any;
   roleEmail: any;
@@ -57,7 +65,7 @@ export class UserDataComponent {
   submitted: any;
   role: any;
 
-  constructor(public authService: AuthService, private db: AngularFirestore, private router: Router, private fb: FormBuilder) {
+  constructor(public authService: AuthService, private db: AngularFirestore, private router: Router, private fb: FormBuilder, private modalService: NgbModal) {
   }
   ngOnInit() {
 
@@ -85,7 +93,7 @@ export class UserDataComponent {
           });
           break;
         case 'Customer':
-          this.cusData = this.db.collection("users").doc("all").collection("oil_data", ref=>ref.where('email', '==', this.userEmail));
+          this.cusData = this.db.collection("users").doc("all").collection("oil_data", ref => ref.where('email', '==', this.userEmail));
           this.cusData.valueChanges().subscribe(resData => {
             this.cusDataRes = resData;
             console.log(resData, "cus_oil_data");
@@ -106,6 +114,7 @@ export class UserDataComponent {
   }
 
   addEntry() {
+    this.rowId = Date.now().toString();
     this.cusStore = {
       "name": this.cusNickName,
       "role": "customer",
@@ -116,11 +125,11 @@ export class UserDataComponent {
       "purchased": this.purchasedDate,
       "dateCreated": this.dateNow,
       "entryBy": this.userEmail,
-      "payment":this.cusPayment
+      "payment": this.cusPayment,
+      "id": this.rowId
     };
     console.log("saved", this.cusStore);
-
-    this.db.collection("users").doc("all").collection("oil_data").add(this.cusStore);
+    this.db.collection("users").doc("all").collection("oil_data").doc(this.rowId).set(this.cusStore);
 
     /*   this.db.collection("users").doc(this.cusEmailId).snapshotChanges();
        this.sfDocRef = this.db.collection("users").doc("eb.arun@gmail.com");
@@ -143,7 +152,57 @@ export class UserDataComponent {
           }
         }*/
   }
+  updateEntry(updateId, updateEntryModal) {
+    this.updateShowInfo = this.db.collection("users").doc("all").collection("oil_data").doc(updateId).valueChanges().subscribe(res=>{
+      this.getUpdateInfo = res;
+      console.log(this.getUpdateInfo);
+      this.cusUpNickName = this.getUpdateInfo.name;
+      this.cusNickName = this.getUpdateInfo.name;
+      this.cusOil=this.getUpdateInfo.product;
+      this.cusEmailId = this.getUpdateInfo.email;
+      this.cusPayment = this.getUpdateInfo.payment;
+      this.cusPrice = this.getUpdateInfo.price;
+      this.purchasedDate = this.getUpdateInfo.purchased;
+      this.cusQuantity = this.getUpdateInfo.quantity;
+      console.log(this.purchasedDate);
+    })
+    this.modalService.open(updateEntryModal).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+      this.updateInfo = {
+      "name": this.cusNickName,
+      "role": "customer",
+      "email": this.cusEmailId,
+      "price": this.cusPrice,
+      "product": this.cusOil,
+      "quantity": this.cusQuantity,
+      "purchased": this.purchasedDate,
+      "dateModified": this.dateNow,
+      "modifiedBy": this.userEmail,
+      "payment": this.cusPayment,
+    };
+      this.db.collection("users").doc("all").collection("oil_data").doc(updateId).ref.set(this.updateInfo, {merge:true})
+      console.log(this.closeResult);
+    }, (reason) => {
+      this.closeResult = `Dismissed ${reason}`;
+      console.log(this.closeResult, updateId);
+    });
 
+  }
+  deleteEntry(deleteId, content) {
+
+    this.modalService.open(content).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+      this.db.collection("users").doc("all").collection("oil_data").doc(deleteId).delete().then(function () {
+        console.log('Deleted', deleteId);
+      }).catch(function (error) {
+        alert("Error in deleting the data");
+        console.log(error);
+      });
+    }, (reason) => {
+      this.closeResult = `Dismissed ${reason}`;
+    });
+
+  }
   addRole(data, valid) {
     this.submitted = true;
     if (valid === true) {
