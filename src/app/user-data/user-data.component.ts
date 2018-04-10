@@ -47,6 +47,12 @@ export class UserDataComponent {
   cusData: AngularFirestoreCollection<any>;
   cusDataRes: any;
   cusPayment: any;
+  totalUnpaid:any;
+  totalPaid:any;
+  totalPurchased:any;
+  totalUnpaidCash:any;
+  totalPurchasedCash:any;
+  totalPaidCash:any;
 
   updateInfo:any;
   updateShowInfo:any;
@@ -96,7 +102,21 @@ export class UserDataComponent {
           this.cusData = this.db.collection("users").doc("all").collection("oil_data", ref => ref.where('email', '==', this.userEmail));
           this.cusData.valueChanges().subscribe(resData => {
             this.cusDataRes = resData;
-            console.log(resData, "cus_oil_data");
+            this.totalPurchasedCash = 0;
+            this.totalUnpaidCash = 0;
+            this.totalPaidCash = 0;
+            this.totalPurchased = resData.forEach(element => {
+              this.totalPurchasedCash = this.totalPurchasedCash + parseInt(element.price);
+              if(element.payment=='unpaid'){
+                this.totalUnpaidCash = this.totalUnpaidCash + parseInt(element.price);
+              }
+              if(element.payment=='paid'){
+                this.totalPaidCash = this.totalPaidCash + parseInt(element.price);
+              }
+            });
+            // this.totalPaid = 
+            // this.totalPurchased = 
+            console.log(resData, "cus_oil_data", this.totalPurchasedCash, this.totalPaidCash, this.totalUnpaidCash);
           })
           break;
         default:

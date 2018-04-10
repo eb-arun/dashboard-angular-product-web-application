@@ -12,3 +12,6 @@ span.paymentStatus {
     padding: 0px 8px 3px;
     border-radius: 5px;
 }
+.bg-dark {
+    background-color: #343a40db!important;
+}

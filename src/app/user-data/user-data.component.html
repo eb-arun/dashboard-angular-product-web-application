@@ -38,10 +38,10 @@
           <td><span placement="right" ngbTooltip="puchased on {{data.purchased | date}}">{{data.quantity}}L</span></td>
           <td [ngClass]="{'text-success':data.payment=='paid', 'text-danger':data.payment=='unpaid'}"><span placement="left" ngbTooltip="{{data.payment}}">{{data.price | currency:'INR':'symobol'}}</span></td>
           <td>
-            <a placement="left" ngbTooltip="want to update this ?" (click)="updateEntry(data.id, updateEntryModal)">
+            <a placement="left" (click)="updateEntry(data.id, updateEntryModal)">
                     <i class="fas fa-cloud-upload-alt fa-lg" style="color:green"></i>
             </a>
-            <a placement="left" ngbTooltip="want to delete this ?" (click)="deleteEntry(data.id, content)">
+            <a placement="left" (click)="deleteEntry(data.id, content)">
             <span class="fa-layers fa-fw fa-lg">
     <i class="fas fa-cloud" data-fa-transform="down-3"></i>
     <i class="fa-inverse fas fa-times" data-fa-transform="shrink-7 down-4" style="color:Tomato"></i>
@@ -276,6 +276,42 @@
 </div>
 
 <div *ngIf="role=='Customer'">
+  <div class="row mb-3">
+  <div class="col-sm">
+    <div class="card text-center bg-dark text-white">
+  <div class="card-header">
+    Total Purchased
+  </div>
+  <div class="card-body text-info">
+    <h2 class="card-title">{{totalPurchasedCash | currency:'INR':'symobol'}}</h2>
+  </div>
+
+</div>
+  </div>
+    <div class="col-sm">
+    <div class="card text-center bg-dark text-white">
+  <div class="card-header">
+    Total Paid
+  </div>
+  <div class="card-body text-success">
+    <h2 class="card-title">{{totalPaidCash | currency:'INR':'symobol'}}</h2>
+  </div>
+
+</div>
+  </div>
+    <div class="col-sm">
+    <div class="card text-center bg-dark text-white">
+  <div class="card-header">
+    Total Unpaid
+  </div>
+  <div class="card-body text-danger">
+    <h2 class="card-title">{{totalUnpaidCash | currency:'INR':'symobol'}}</h2>
+  </div>
+
+</div>
+  </div>
+ 
+  </div>
   <div class="table-responsive">
     <table class="table table-hover">
       <thead class="thead-dark">
