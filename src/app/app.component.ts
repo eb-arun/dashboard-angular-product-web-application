@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
       if(event instanceof NavigationStart) {
         switch (event.url){
           case '/dashboard':
-            this.setTitle('Oil Dashboard');
+            this.setTitle('Dashboard ::: Product');
             break;
             case '/myprofile':
             this.setTitle('My Profile ::');

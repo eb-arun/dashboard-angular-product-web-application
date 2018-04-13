@@ -70,7 +70,9 @@ export class UserDataComponent {
   roleEntry: FormGroup;
   submitted: any;
   role: any;
-
+  allRoleRes:any;
+  newUser: any;
+existingUser: any;
   constructor(public authService: AuthService, private db: AngularFirestore, private router: Router, private fb: FormBuilder, private modalService: NgbModal) {
   }
   ngOnInit() {
@@ -97,6 +99,10 @@ export class UserDataComponent {
             this.allDataRes = resData;
             console.log(resData, "all_oil_data");
           });
+          this.db.collection("users").doc("all").collection('role').valueChanges().subscribe(resData =>{
+            this.allRoleRes = resData;
+            console.log(resData, 'all_role');
+          })
           break;
         case 'Customer':
           this.cusData = this.db.collection("users").doc("all").collection("oil_data", ref => ref.where('email', '==', this.userEmail));
@@ -114,6 +120,15 @@ export class UserDataComponent {
                 this.totalPaidCash = this.totalPaidCash + parseInt(element.price);
               }
             });
+            if(this.cusDataRes.length > 0){
+              
+               this.newUser = false;
+              this.existingUser = true;
+            }
+            else{
+              this.newUser = true;
+              this.existingUser = false;
+            }
             // this.totalPaid = 
             // this.totalPurchased = 
             console.log(resData, "cus_oil_data", this.totalPurchasedCash, this.totalPaidCash, this.totalUnpaidCash);
@@ -226,18 +241,34 @@ export class UserDataComponent {
   addRole(data, valid) {
     this.submitted = true;
     if (valid === true) {
+      this.rowId = Date.now().toString();
       this.roleStore = {
         "roleName": this.roleName,
         "roleEmail": this.roleEmail,
         "roleChoosen": this.roleChoosen,
         "dateCreated": this.dateNow,
-        "createdBy": this.userEmail
+        "createdBy": this.userEmail,
+        "id": this.rowId
+
       }
-      this.db.collection("users").doc("all").collection("role").add(this.roleStore);
+      this.db.collection("users").doc("all").collection("role").doc(this.rowId).set(this.roleStore);
       console.log("added role", this.roleStore, data);
     }
 
 
+  }
+  deleteRole(deleteId, deleteRoleAlert) {
+    this.modalService.open(deleteRoleAlert).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+      this.db.collection("users").doc("all").collection("role").doc(deleteId).delete().then(function () {
+        console.log('Deleted Role', deleteId);
+      }).catch(function (error) {
+        alert("Error in deleting the data");
+        console.log(error);
+      });
+    }, (reason) => {
+      this.closeResult = `Dismissed ${reason}`;
+    });
   }
   addRequestRole() {
     alert("work in progress, stay tuned..");

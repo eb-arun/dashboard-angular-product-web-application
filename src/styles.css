@@ -29,3 +29,44 @@ opacity: 0;
 .navbar-dark .navbar-brand.activeLink:focus {
         color:#000;
     }
+
+/*Dashboard Styles*/
+
+.form-control:focus {
+    box-shadow: none;
+}
+.radio-error {
+    position: absolute;
+    top: 40px;
+    bottom: 0;
+    left: 15px;
+}
+span.paymentStatus {
+    color: white;
+    padding: 0px 8px 3px;
+    border-radius: 5px;
+}
+.bg-dark {
+    background-color: rgba(52, 58, 64, 0.8588235294117647)!important;
+}
+.dashboardAdminTab .nav-pills {
+    margin-bottom: 1rem;
+}
+
+.dashboardAdminTab .nav-pills a.active {
+    background: #ffc107;
+    color: #000;
+}
+
+.dashboardAdminTab .nav-pills a {
+    color: #5a5959;
+}
+
+.dashboardAdminTab .nav-pills a.active:hover {
+    color: #212529;
+    background-color: #e0a800;
+}
+
+.dashboardAdminTab .nav-pills a:hover {
+    color: #212529;
+}
