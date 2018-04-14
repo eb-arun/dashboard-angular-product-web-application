@@ -59,7 +59,7 @@ export class UserDataComponent {
   getUpdateInfo:any;
   cusUpNickName:any;
 
-  dateNow: Date = new Date();
+  dateNow: Date;
   rowId: any;
   closeResult: any;
 
@@ -73,6 +73,12 @@ export class UserDataComponent {
   allRoleRes:any;
   newUser: any;
 existingUser: any;
+
+  requestStore:any;
+  requestOil:any;
+  requestQuantity:any;
+  allRequestRes:any;
+
   constructor(public authService: AuthService, private db: AngularFirestore, private router: Router, private fb: FormBuilder, private modalService: NgbModal) {
   }
   ngOnInit() {
@@ -84,6 +90,7 @@ existingUser: any;
       this.role = localStorage.getItem('roleInfo');
       console.log('role = ', this.role);
       this.saveToStore = this.db.collection("users");
+      this.userName = this.localUser.name;
       this.userFirstName = this.localUser.given_name;
       this.userEmail = this.localUser.email;
 
@@ -102,6 +109,10 @@ existingUser: any;
           this.db.collection("users").doc("all").collection('role').valueChanges().subscribe(resData =>{
             this.allRoleRes = resData;
             console.log(resData, 'all_role');
+          })
+          this.db.collection("users").doc("all").collection('customer_request').valueChanges().subscribe(resData =>{
+            this.allRequestRes = resData;
+            console.log(resData, 'all_request');
           })
           break;
         case 'Customer':
@@ -150,6 +161,7 @@ existingUser: any;
 
   addEntry() {
     this.rowId = Date.now().toString();
+    this.dateNow = new Date();
     this.cusStore = {
       "name": this.cusNickName,
       "role": "customer",
@@ -203,6 +215,7 @@ existingUser: any;
     })
     this.modalService.open(updateEntryModal).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
+      this.dateNow = new Date();
       this.updateInfo = {
       "name": this.cusNickName,
       "role": "customer",
@@ -242,6 +255,7 @@ existingUser: any;
     this.submitted = true;
     if (valid === true) {
       this.rowId = Date.now().toString();
+      this.dateNow = new Date();
       this.roleStore = {
         "roleName": this.roleName,
         "roleEmail": this.roleEmail,
@@ -270,8 +284,19 @@ existingUser: any;
       this.closeResult = `Dismissed ${reason}`;
     });
   }
-  addRequestRole() {
-    alert("work in progress, stay tuned..");
+  addRequest() {
+    this.rowId = Date.now().toString();
+    this.dateNow = new Date();
+    this.requestStore = {
+      'id':this.rowId,
+      'oil':this.requestOil,
+      'quantity':this.requestQuantity,
+      'userName': this.userName,
+      'userEmail':this.userEmail,
+      'dateRequested':this.dateNow,
+      'status':'pending'
+    };
+    this.db.collection("users").doc("all").collection("customer_request").doc(this.rowId).set(this.requestStore);
   }
 
 

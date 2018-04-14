@@ -110,9 +110,35 @@
       </ng-template>
     </ngb-tab>
     <ngb-tab>
-      <ng-template ngbTabTitle>View Curstomer's Requests <span class="badge badge-success">4</span></ng-template>
+      <ng-template ngbTabTitle>View Curstomer's Requests <span class="badge badge-success">{{allRequestRes?.length}}</span></ng-template>
       <ng-template ngbTabContent>
-
+        <div class="table-responsive" *ngIf="allRequestRes">
+          <table class="table table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">ID</th>
+                <th scope="col">Oil</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let data of allRequestRes; let i = index">
+              <tr>
+                <td><span>{{i+1}}</span></td>
+                <td><span>{{data.userName}}</span></td>
+                <td><span>{{data.userEmail}}</span></td>
+                <td><span>{{data.oil}}</span></td>
+                <td><span>{{data.quantity}}</span></td>
+                <td>{{data.dateRequested | date}}</td>
+                <td><a placement="left" (click)="changeRequestStatus(data.id, changeRequestAlert)">
+            {{data.status}}</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </ng-template>
     </ngb-tab>
   </ngb-tabset>
@@ -403,7 +429,7 @@
   </div>
 
   <!-- "Oil Request" Modal -->
-
+ 
   <div class="modal" id="addRequestModal">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -414,35 +440,35 @@
         </button>
         </div>
         <div class="modal-body">
-          <form (ngSubmit)="addRequestRole()">
+          <form (ngSubmit)="addRequest()">
 
             <div class="form-group row">
               <div class="btn-group btn-group-toggle mr-3 mb-3 col-sm">
                 <label [ngClass]="{'active': step1==='step-1'}" (click)="step1='step-1'" class="btn btn-warning">
-              <input type="radio" name="oil" [(ngModel)]="cusOil" value="gingelly" autocomplete="off" checked=""> Gingelly
+              <input type="radio" name="oil" [(ngModel)]="requestOil" value="gingelly" autocomplete="off" checked=""> Gingelly
             </label>
                 <label [ngClass]="{'active': step1==='step-2'}" (click)="step1='step-2'" class="btn btn-warning">
-              <input type="radio" name="oil" [(ngModel)]="cusOil" value="groundnut" autocomplete="off"> Groundnut
+              <input type="radio" name="oil" [(ngModel)]="requestOil" value="groundnut" autocomplete="off"> Groundnut
             </label>
                 <label [ngClass]="{'active': step1==='step-3'}" (click)="step1='step-3'" class="btn btn-warning">
-              <input type="radio" name="oil" [(ngModel)]="cusOil" value="coconut" autocomplete="off"> Coconut
+              <input type="radio" name="oil" [(ngModel)]="requestOil" value="coconut" autocomplete="off"> Coconut
             </label>
               </div>
               <div class="btn-group btn-group-toggle mr-3 mb-3 col-sm">
                 <label [ngClass]="{'active': step==='step1'}" (click)="step='step1'" class="btn btn-warning">
-              <input type="radio" name="cusQuantity" [(ngModel)]="cusQuantity" value="0.5" autocomplete="off" checked=""> 0.5L
+              <input type="radio" name="cusQuantity" [(ngModel)]="requestQuantity" value="0.5" autocomplete="off" checked=""> 0.5L
             </label>
                 <label [ngClass]="{'active': step==='step2'}" (click)="step='step2'" class="btn btn-warning">
-              <input type="radio" name="cusQuantity" [(ngModel)]="cusQuantity" value="1" autocomplete="off"> 1L
+              <input type="radio" name="cusQuantity" [(ngModel)]="requestQuantity" value="1" autocomplete="off"> 1L
             </label>
                 <label [ngClass]="{'active': step==='step3'}" (click)="step='step3'" class="btn btn-warning">
-              <input type="radio" name="cusQuantity" [(ngModel)]="cusQuantity" value="1.5" autocomplete="off"> 1.5L
+              <input type="radio" name="cusQuantity" [(ngModel)]="requestQuantity" value="1.5" autocomplete="off"> 1.5L
             </label>
                 <label [ngClass]="{'active': step==='step4'}" (click)="step='step4'" class="btn btn-warning">
-              <input type="radio" name="cusQuantity" [(ngModel)]="cusQuantity" value="2" autocomplete="off"> 2L
+              <input type="radio" name="cusQuantity" [(ngModel)]="requestQuantity" value="2" autocomplete="off"> 2L
             </label>
                 <label [ngClass]="{'active': step==='step5'}" (click)="step='step5'" class="btn btn-warning">
-              <input type="radio" name="cusQuantity" [(ngModel)]="cusQuantity" value="2.5" autocomplete="off"> 2.5L
+              <input type="radio" name="cusQuantity" [(ngModel)]="requestQuantity" value="2.5" autocomplete="off"> 2.5L
             </label>
               </div>
             </div>
