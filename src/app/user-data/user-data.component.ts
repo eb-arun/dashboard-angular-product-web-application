@@ -78,6 +78,10 @@ existingUser: any;
   requestOil:any;
   requestQuantity:any;
   allRequestRes:any;
+  requestUpdate:any;
+
+  message:any;
+  messageState:boolean = false;
 
   constructor(public authService: AuthService, private db: AngularFirestore, private router: Router, private fb: FormBuilder, private modalService: NgbModal) {
   }
@@ -200,6 +204,7 @@ existingUser: any;
         }*/
   }
   updateEntry(updateId, updateEntryModal) {
+    this.messageState =false;
     this.updateShowInfo = this.db.collection("users").doc("all").collection("oil_data").doc(updateId).valueChanges().subscribe(res=>{
       this.getUpdateInfo = res;
       console.log(this.getUpdateInfo);
@@ -228,7 +233,10 @@ existingUser: any;
       "modifiedBy": this.userEmail,
       "payment": this.cusPayment,
     };
-      this.db.collection("users").doc("all").collection("oil_data").doc(updateId).ref.set(this.updateInfo, {merge:true})
+      this.db.collection("users").doc("all").collection("oil_data").doc(updateId).ref.set(this.updateInfo, {merge:true});
+      this.message = "Updated Successfully";
+      this.messageState =true;
+      console.log(this.message);
       console.log(this.closeResult);
     }, (reason) => {
       this.closeResult = `Dismissed ${reason}`;
@@ -285,6 +293,7 @@ existingUser: any;
     });
   }
   addRequest() {
+    this.messageState =false;
     this.rowId = Date.now().toString();
     this.dateNow = new Date();
     this.requestStore = {
@@ -297,6 +306,20 @@ existingUser: any;
       'status':'pending'
     };
     this.db.collection("users").doc("all").collection("customer_request").doc(this.rowId).set(this.requestStore);
+    console.log("customer_request", this.requestStore);
+    this.message = "Request sent and notified !";
+    this.messageState =true;
+  }
+
+  changeRequestStatus(id, message) {
+    this.dateNow = new Date();
+    this.requestUpdate = {
+      'status':message,
+      'statusChangedBy': this.userEmail,
+      'StatusModified': this.dateNow
+    };
+    this.db.collection("users").doc("all").collection("customer_request").doc(id).ref.set(this.requestUpdate, {merge:true});
+    console.log('updated status', this.requestUpdate);
   }
 
 

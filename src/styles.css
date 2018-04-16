@@ -70,3 +70,32 @@ span.paymentStatus {
 .dashboardAdminTab .nav-pills a:hover {
     color: #212529;
 }
+
+/* Animation Display Success/Error Messages */
+
+div.statusMessage {
+  animation-duration: 10s;
+  animation-name: slidein;
+  animation-fill-mode: forwards;
+  position: fixed;
+  top: 10px;
+  right: 10%;
+  z-index: 999;
+  background: tomato;
+    box-shadow: -2px 2px 4px 0px #000;
+    color: #fff;
+    padding: 5px 20px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+@keyframes slidein {
+  from {
+    opacity: 1;
+  }
+
+  to {
+
+    opacity: 0;
+  }
+}

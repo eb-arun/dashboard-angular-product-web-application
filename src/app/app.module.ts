@@ -37,7 +37,7 @@ const firebaseConfig = {
   };
 
 export const rootRouterConfig: Routes = [
-    { path: '', redirectTo: 'home' , pathMatch: 'full'},
+    { path: '', redirectTo: 'dashboard' , pathMatch: 'full'},
     { path: 'home', component:AppDashboardComponent},
     { path: 'aboutus', component:AppAboutUsComponent},
     { path: 'learner', component: LearnerComponent },

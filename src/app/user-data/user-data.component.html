@@ -1,3 +1,4 @@
+<div [ngClass]="{'statusMessage':messageState}" *ngIf="message"><i class="fas fa-lg fa-bullhorn"></i> {{message}}</div>
 <h2 class="mt-3 mb-3" *ngIf="role=='Admin'">Hello {{userFirstName}}
   <button data-toggle="modal" data-target="#addEntryModal" type="button" class="float-right btn btn-warning">Add Entry</button>
   <button data-toggle="modal" data-target="#addRoleModal" type="button" class="mr-3 float-right btn btn-warning">Add Role</button>
@@ -133,8 +134,15 @@
                 <td><span>{{data.oil}}</span></td>
                 <td><span>{{data.quantity}}</span></td>
                 <td>{{data.dateRequested | date}}</td>
-                <td><a placement="left" (click)="changeRequestStatus(data.id, changeRequestAlert)">
-            {{data.status}}</a></td>
+                <td>
+            <div ngbDropdown class="d-inline-block">
+      <button class="btn" [ngClass]="{'btn-outline-success': data.status=='processed','btn-outline-warning': data.status=='pending', 'btn-outline-danger': data.status=='rejected' }" id="dropdownBasic1" ngbDropdownToggle>{{data.status}}</button>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <button class="dropdown-item btn-success" (click)="changeRequestStatus(data.id, 'processed')">processed</button>
+        <button class="dropdown-item btn-danger" (click)="changeRequestStatus(data.id, 'rejected')">rejected</button>
+      </div>
+    </div>
+            </td>
               </tr>
             </tbody>
           </table>
@@ -440,7 +448,7 @@
         </button>
         </div>
         <div class="modal-body">
-          <form (ngSubmit)="addRequest()">
+          <form>
 
             <div class="form-group row">
               <div class="btn-group btn-group-toggle mr-3 mb-3 col-sm">
@@ -473,7 +481,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-warning">Send</button>
+              <button type="submit" class="btn btn-warning" (click)="addRequest()" data-dismiss="modal">Send</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
           </form>
