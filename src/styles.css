@@ -14,7 +14,7 @@
 a.navbar-brand {
     font-size: 16px;
 }
-.navbar-dark .navbar-brand span:not(.d-inline) svg {
+.navbar-dark .navbar-brand:not(.activeLink) span:not(.d-inline) svg {
 opacity: 0;
 }
 .navbar-dark .navbar-brand span.d-inline {
@@ -43,9 +43,12 @@ opacity: 0;
 
 }
 .logo {
-    box-shadow: 1px 1px 1px 1px;
     margin-right: 10px;
     padding: 5px 10px;
+    color: #795548 !important;
+    border: 1px solid;
+    border-radius: 37px;
+    cursor: unset;
 }
 /*.navbar-dark .navbar-brand.activeLink {
     color:#000;
@@ -109,7 +112,6 @@ div.statusMessage {
   position: fixed;
   top: 10px;
   right: 10%;
-  z-index: 999;
   background: tomato;
     box-shadow: -2px 2px 4px 0px #000;
     color: #fff;
@@ -121,10 +123,11 @@ div.statusMessage {
 @keyframes slidein {
   from {
     opacity: 1;
+    z-index: 999;
   }
 
   to {
-
+    z-index: -1;
     opacity: 0;
   }
 }
