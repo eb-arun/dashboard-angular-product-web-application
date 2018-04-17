@@ -79,6 +79,7 @@ existingUser: any;
   requestQuantity:any;
   allRequestRes:any;
   requestUpdate:any;
+  allRequestPending:number;
 
   message:any;
   messageState:boolean = false;
@@ -114,9 +115,12 @@ existingUser: any;
             this.allRoleRes = resData;
             console.log(resData, 'all_role');
           })
-          this.db.collection("users").doc("all").collection('customer_request').valueChanges().subscribe(resData =>{
+          this.db.collection("users").doc("all").collection('customer_request',  ref => ref.orderBy('status')).valueChanges().subscribe(resData =>{
             this.allRequestRes = resData;
             console.log(resData, 'all_request');
+          })
+          this.db.collection("users").doc("all").collection('customer_request',  ref => ref.where('status','==', 'pending')).valueChanges().subscribe(resData => {
+            this.allRequestPending = resData.length;
           })
           break;
         case 'Customer':

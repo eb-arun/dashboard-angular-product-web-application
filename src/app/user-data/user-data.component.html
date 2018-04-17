@@ -20,7 +20,8 @@
 
 <div class="dashboardAdminTab" *ngIf="role=='Admin'">
   <ngb-tabset type="pills">
-    <ngb-tab title="View Purchased History">
+    <ngb-tab>
+      <ng-template ngbTabTitle><span class="d-inline d-sm-none" ngbTooltip="All History"><i class="fas fa-history fa-lg"></i></span> <span class="d-none d-sm-inline"> View Purchased History </span></ng-template>
       <ng-template ngbTabContent>
         <div class="table-responsive" *ngIf="allDataRes">
           <table class="table table-hover">
@@ -69,7 +70,8 @@
         </div>
       </ng-template>
     </ngb-tab>
-    <ngb-tab title="View Users Role">
+    <ngb-tab>
+      <ng-template ngbTabTitle><span class="d-inline d-sm-none" ngbTooltip="Users Role"><i class="fas fa-users fa-lg"></i></span> <span class="d-none d-sm-inline"> View Users Role </span></ng-template>
       <ng-template ngbTabContent>
         <div class="table-responsive" *ngIf="allRoleRes">
           <table class="table table-hover">
@@ -111,7 +113,7 @@
       </ng-template>
     </ngb-tab>
     <ngb-tab>
-      <ng-template ngbTabTitle>View Curstomer's Requests <span class="badge badge-success">{{allRequestRes?.length}}</span></ng-template>
+      <ng-template ngbTabTitle><span class="d-inline d-sm-none" ngbTooltip="Customer Requests"><i class="far fa-envelope fa-lg"></i></span> <span class="d-none d-sm-inline"> Curstomer's Requests </span><span ngbTooltip="Fresh Requests" placement='right' class="badge badge-success">{{allRequestPending}}</span></ng-template>
       <ng-template ngbTabContent>
         <div class="table-responsive" *ngIf="allRequestRes">
           <table class="table table-hover">
@@ -133,7 +135,7 @@
                 <td><span>{{data.userEmail}}</span></td>
                 <td><span>{{data.oil}}</span></td>
                 <td><span>{{data.quantity}}</span></td>
-                <td>{{data.dateRequested | date}}</td>
+                <td><span class="dateAlign">{{data.dateRequested | date}}</span></td>
                 <td>
             <div ngbDropdown class="d-inline-block">
       <button class="btn" [ngClass]="{'btn-outline-success': data.status=='processed','btn-outline-warning': data.status=='pending', 'btn-outline-danger': data.status=='rejected' }" id="dropdownBasic1" ngbDropdownToggle>{{data.status}}</button>
@@ -373,8 +375,8 @@
 
   </div>
   <div class="existingCustomer"   *ngIf="existingUser">
-  <div class="row mb-3">
-    <div class="col-sm">
+  <div class="row">
+    <div class="col-sm mb-3">
       <div class="card text-center bg-dark text-white">
         <div class="card-header">
           Total Purchased
@@ -385,7 +387,7 @@
 
       </div>
     </div>
-    <div class="col-sm">
+    <div class="col-sm mb-3">
       <div class="card text-center bg-dark text-white">
         <div class="card-header">
           Total Paid
@@ -396,7 +398,7 @@
 
       </div>
     </div>
-    <div class="col-sm">
+    <div class="col-sm mb-3">
       <div class="card text-center bg-dark text-white">
         <div class="card-header">
           Total Unpaid
@@ -427,7 +429,7 @@
           <td>{{data.product}}</td>
           <td>{{data.quantity}}L</td>
           <td [ngClass]="{'text-success':data.payment=='paid', 'text-danger':data.payment=='unpaid'}">{{data.price | currency:'INR':'symobol'}}</td>
-          <td>{{data.purchased | date}}</td>
+          <td><span class="dateAlign">{{data.purchased | date}}</span></td>
           <td><span class="paymentStatus" [ngClass]="{'bg-success':data.payment=='paid', 'bg-danger':data.payment=='unpaid'}"><i class="fas fa-rupee-sign fa-xs"></i> {{data.payment}}</span></td>
         </tr>
 
