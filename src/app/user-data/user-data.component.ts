@@ -168,6 +168,7 @@ existingUser: any;
   }
 
   addEntry() {
+    this.messageState =false;
     this.rowId = Date.now().toString();
     this.dateNow = new Date();
     this.cusStore = {
@@ -185,7 +186,8 @@ existingUser: any;
     };
     console.log("saved", this.cusStore);
     this.db.collection("users").doc("all").collection("oil_data").doc(this.rowId).set(this.cusStore);
-
+    this.message = "Entry Added Successfully";
+    this.messageState =true;
     /*   this.db.collection("users").doc(this.cusEmailId).snapshotChanges();
        this.sfDocRef = this.db.collection("users").doc("eb.arun@gmail.com");
   
@@ -249,7 +251,7 @@ existingUser: any;
 
   }
   deleteEntry(deleteId, content) {
-
+    
     this.modalService.open(content).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       this.db.collection("users").doc("all").collection("oil_data").doc(deleteId).delete().then(function () {
@@ -266,6 +268,7 @@ existingUser: any;
   addRole(data, valid) {
     this.submitted = true;
     if (valid === true) {
+      this.messageState =false;
       this.rowId = Date.now().toString();
       this.dateNow = new Date();
       this.roleStore = {
@@ -278,12 +281,15 @@ existingUser: any;
 
       }
       this.db.collection("users").doc("all").collection("role").doc(this.rowId).set(this.roleStore);
+      this.message = "Role Added Successfully";
+      this.messageState =true;
       console.log("added role", this.roleStore, data);
     }
 
 
   }
   deleteRole(deleteId, deleteRoleAlert) {
+    
     this.modalService.open(deleteRoleAlert).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       this.db.collection("users").doc("all").collection("role").doc(deleteId).delete().then(function () {
@@ -316,6 +322,7 @@ existingUser: any;
   }
 
   changeRequestStatus(id, message) {
+    this.messageState =false;
     this.dateNow = new Date();
     this.requestUpdate = {
       'status':message,
@@ -324,6 +331,8 @@ existingUser: any;
     };
     this.db.collection("users").doc("all").collection("customer_request").doc(id).ref.set(this.requestUpdate, {merge:true});
     console.log('updated status', this.requestUpdate);
+    this.message = "Status Updated !";
+    this.messageState =true;
   }
 
 

@@ -1,10 +1,11 @@
-<div [ngClass]="{'statusMessage':messageState}" *ngIf="message"><i class="fas fa-lg fa-bullhorn"></i> {{message}}</div>
+<div [ngClass]="{'statusMessage':messageState}" *ngIf="messageState"><i class="fas fa-lg fa-bullhorn"></i> {{message}}</div>
 <h2 class="mt-3 mb-3" *ngIf="role=='Admin'">Hello {{userFirstName}}
-  <button data-toggle="modal" data-target="#addEntryModal" type="button" class="float-right btn btn-secondary"><span class="d-inline d-sm-none text-white" placement="bottom"  ngbTooltip="Add Role"><i class="fas fa-cart-plus fa-lg"></i></span> <span class="d-none d-sm-inline">Add Entry</span></button>
+ <div class="d-block d-sm-inline mt-3"> <button data-toggle="modal" data-target="#addEntryModal" type="button" class="float-right btn btn-secondary"><span class="d-inline d-sm-none text-white" placement="bottom"  ngbTooltip="Add Role"><i class="fas fa-cart-plus fa-lg"></i></span> <span class="d-none d-sm-inline">Add Entry</span></button>
   <button data-toggle="modal" data-target="#addRoleModal" type="button" class="mr-3 float-right btn btn-secondary"><span class="d-inline d-sm-none text-white" placement="bottom"  ngbTooltip="Add Entry"><i class="fas fa-user-plus fa-lg"></i></span> <span class="d-none d-sm-inline">Add Role</span></button>
+ </div>
 </h2>
-<h2 *ngIf="role=='Customer'" class="mt-3 mb-3">Hello {{userFirstName}}
-  <button data-toggle="modal" data-target="#addRequestModal" type="button" class="float-right btn btn-warning">Oil Reqeust</button>
+<h2 *ngIf="role=='Customer'" class="mt-3 mb-3"><button data-toggle="modal" data-target="#addRequestModal" type="button" class="float-right btn btn-warning">Oil Reqeust</button> Hello {{userFirstName}}
+  
 
 </h2>
 <!--<p>{{posts }}</p>-->
@@ -134,7 +135,7 @@
                 <td><span>{{data.userName}}</span></td>
                 <td><span>{{data.userEmail}}</span></td>
                 <td><span>{{data.oil}}</span></td>
-                <td><span>{{data.quantity}}</span></td>
+                <td><span>{{data.quantity}}L</span></td>
                 <td><span class="dateAlign">{{data.dateRequested | date}}</span></td>
                 <td>
             <div ngbDropdown class="d-inline-block">
